@@ -233,10 +233,17 @@ st.markdown("Corporate Reporting Canvas • Powered by In-Memory Engine & Remote
 # --- 3. SIDEBAR CONTROLS & DYNAMIC FILTER EXPANDERS ---
 st.sidebar.header("🎛️ Page Filters")
 
-# Connection Settings
+# Connection Settings - check if CSV is present to adapt to local vs cloud environment
+import os
+csv_exists = os.path.exists('samplesuperstore.csv')
+source_options = []
+if csv_exists:
+    source_options.append("Local High-Performance Cache (CSV)")
+source_options.append("Live Cloud Database (MySQL)")
+
 source_option = st.sidebar.radio(
     "Data Source Mode",
-    options=["Local High-Performance Cache (CSV)", "Live Cloud Database (MySQL)"],
+    options=source_options,
     help="CSV cache loads in milliseconds. Cloud DB pulls real-time transactions."
 )
 
@@ -252,12 +259,20 @@ if source_option == "Live Cloud Database (MySQL)":
             data_load_method = "Aiven Cloud MySQL"
     except Exception as e:
         st.sidebar.error(f"Database connection failed: {e}")
-        st.sidebar.warning("⚠️ Automatically falling back to Local CSV...")
-        df = load_data_from_csv()
-        data_load_method = "Local CSV (Fallback)"
+        if csv_exists:
+            st.sidebar.warning("⚠️ Automatically falling back to Local CSV...")
+            df = load_data_from_csv()
+            data_load_method = "Local CSV (Fallback)"
+        else:
+            st.error("❌ Critical Error: Database connection failed and local CSV cache is not available on the cloud server. Please check your Streamlit Secrets database credentials.")
+            st.stop()
 else:
-    df = load_data_from_csv()
-    data_load_method = "Local CSV Cache"
+    if csv_exists:
+        df = load_data_from_csv()
+        data_load_method = "Local CSV Cache"
+    else:
+        st.error("❌ Local CSV Cache not found. Please switch to Database mode.")
+        st.stop()
 
 load_elapsed = time.time() - start_load_time
 
