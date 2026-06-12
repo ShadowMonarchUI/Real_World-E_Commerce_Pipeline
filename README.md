@@ -1,5 +1,7 @@
 # 📊 E-Commerce Analytics Dashboard & Ingestion Pipeline
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://ecommerce-pipeline-realworld.streamlit.app/)
+
 An enterprise-grade transactional analytics suite showcasing a high-performance **Streamlit** dashboard styled in a premium **Power BI / Excel Light Theme**, backed by an optimized data cleaning pipeline and a multi-threaded database uploader connected to an **Aiven Cloud MySQL** database.
 
 ---
