@@ -1,0 +1,29 @@
+# Python Environment
+venv/
+.venv/
+ENV/
+bin/
+lib/
+include/
+pyvenv.cfg
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Datasets
+*.csv
+*.xlsx
+raw_online_retail.csv
+samplesuperstore.csv
+
+# Streamlit Configuration and Credentials
+.streamlit/secrets.toml
+
+# OS Files
+.DS_Store
+Thumbs.db
