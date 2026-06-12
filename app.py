@@ -174,8 +174,12 @@ st.markdown("""
 
 # --- 1. DATABASE CONNECTION ---
 def get_db_connection():
-    # Automatically pulls credentials from your secrets, enabling fast C extension
-    return mysql.connector.connect(use_pure=False, **st.secrets["mysql"])
+    try:
+        # Try C-extension first for maximum download performance (speeds up local/Windows execution)
+        return mysql.connector.connect(use_pure=False, **st.secrets["mysql"])
+    except Exception:
+        # Fall back to pure Python connection if C libraries are not compiled/installed (e.g., Streamlit Cloud Linux container)
+        return mysql.connector.connect(use_pure=True, **st.secrets["mysql"])
 
 # --- 2. CACHED DATA LOADERS (Fast C Ingestion & 10x parsed Date formatting) ---
 @st.cache_data(ttl=300, show_spinner=False)
