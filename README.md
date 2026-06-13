@@ -73,10 +73,10 @@ pip install -r requirements.txt
 Create a `.streamlit/secrets.toml` file in the project root:
 ```toml
 [mysql]
-host = "e-commerce-pipeline-bordockz-3737.c.aivencloud.com"
-port = 14582
-database = "ecommerce_analytics"
-user = "avnadmin"
+host = "your_host_address"
+port = your_port_number
+database = "your_database_name"
+user = "user_name"
 password = "YOUR_AIVEN_PASSWORD_HERE"
 ```
 
